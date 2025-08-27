@@ -1,0 +1,31 @@
+# Entorno virtual
+env/
+venv/
+*.venv
+
+# Django
+*.pyc
+__pycache__/
+db.sqlite3
+db.sqlite3-journal
+
+# Archivos de configuración locales
+.env
+local_settings.py
+
+# Medios y estáticos (opcional)
+media/
+staticfiles/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
