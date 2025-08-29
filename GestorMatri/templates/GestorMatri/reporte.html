@@ -1,0 +1,88 @@
+{% extends 'GestorMatri/base.html' %}
+
+{% block title %}Reporte de Rendimiento - Sistema de Gestión de Matrículas{% endblock %}
+
+{% block header %}Reporte de Rendimiento Académico{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h3>Análisis de Rendimiento por Estudiante</h3>
+    
+    {% if estudiantes_datos %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Estudiante</th>
+                    <th>Promedio</th>
+                    <th>Estado</th>
+                    <th>Necesita Tutoría</th>
+                    <th>Cursos Reprobados</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for datos in estudiantes_datos %}
+                <tr>
+                    <td>
+                        <strong>{{ datos.estudiante.codigo_estudiante }}</strong><br>
+                        {{ datos.estudiante.nombres }} {{ datos.estudiante.apellidos }}
+                    </td>
+                    <td>
+                        <strong>{{ datos.promedio }}</strong>
+                    </td>
+                    <td>
+                        {% if datos.estado == "Excelente" %}
+                            <span class="badge badge-excelente">{{ datos.estado }}</span>
+                        {% elif datos.estado == "Bueno" %}
+                            <span class="badge badge-bueno">{{ datos.estado }}</span>
+                        {% elif datos.estado == "Regular" %}
+                            <span class="badge badge-regular">{{ datos.estado }}</span>
+                        {% else %}
+                            <span class="badge badge-bajo">{{ datos.estado }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if datos.necesita_tutoria %}
+                            <span class="badge badge-bajo">Sí</span>
+                        {% else %}
+                            <span class="badge badge-excelente">No</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if datos.cursos_reprobados %}
+                            <ul style="margin: 0; padding-left: 15px;">
+                            {% for curso in datos.cursos_reprobados %}
+                                <li>{{ curso }}</li>
+                            {% endfor %}
+                            </ul>
+                        {% else %}
+                            <span style="color: #28a745;">Ninguno</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="alert alert-warning">
+            <strong>¡Atención!</strong> No hay datos de rendimiento disponibles. 
+            Asegúrate de tener estudiantes con calificaciones registradas.
+        </div>
+    {% endif %}
+</div>
+
+<div class="card">
+    <h3>Estadísticas Generales</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+        <div>
+            <h4>Distribución por Rendimiento:</h4>
+            <ul>
+                {% for datos in estudiantes_datos %}
+                    {% if forloop.first %}
+                        <li>Excelente: {{ estudiantes_datos|length|add:0 }}{% for d in estudiantes_datos %}{% if d.estado == "Excelente" %}+1{% endif %}{% endfor %}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

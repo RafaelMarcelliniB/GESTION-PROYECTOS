@@ -1,0 +1,42 @@
+{% extends 'GestorMatri/base.html' %}
+
+{% block title %}Inicio - Sistema de Gestión de Matrículas{% endblock %}
+
+{% block header %}Dashboard Principal{% endblock %}
+
+{% block content %}
+<div class="stats">
+    <div class="stat-card">
+        <div class="stat-number">{{ total_estudiantes }}</div>
+        <div>Estudiantes Activos</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ total_cursos }}</div>
+        <div>Cursos Disponibles</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ total_matriculas }}</div>
+        <div>Matrículas Activas</div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>Bienvenido al Sistema de Gestión de Matrículas</h3>
+    <p>Este sistema te permite:</p>
+    <ul>
+        <li><strong>Gestionar Estudiantes:</strong> Ver información de todos los estudiantes registrados</li>
+        <li><strong>Reportes de Rendimiento:</strong> Analizar el desempeño académico de cada estudiante</li>
+        <li><strong>Recomendaciones:</strong> Identificar estudiantes que necesitan tutorías o deben repetir cursos</li>
+        <li><strong>Administración:</strong> Agregar y modificar datos desde el panel administrativo</li>
+    </ul>
+</div>
+
+<div class="card">
+    <h3>Acciones Rápidas</h3>
+    <p>
+        <a href="{% url 'estudiantes' %}" style="display: inline-block; background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; margin-right: 10px;">Ver Estudiantes</a>
+        <a href="{% url 'reporte' %}" style="display: inline-block; background-color: #28a745; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; margin-right: 10px;">Ver Reportes</a>
+        <a href="/admin/" style="display: inline-block; background-color: #6c757d; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px;">Panel Admin</a>
+    </p>
+</div>
+{% endblock %}

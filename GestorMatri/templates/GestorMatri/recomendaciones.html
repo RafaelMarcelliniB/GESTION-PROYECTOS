@@ -1,0 +1,92 @@
+{% extends 'GestorMatri/base.html' %}
+
+{% block title %}Recomendaciones - Sistema de Gestión de Matrículas{% endblock %}
+
+{% block header %}Recomendaciones Académicas{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h3>Estudiantes que Necesitan Tutorías</h3>
+    
+    {% if estudiantes_tutoria %}
+        <div class="alert alert-warning">
+            <strong>Atención:</strong> Los siguientes estudiantes tienen un promedio menor a 13 y se recomienda apoyo de tutorías.
+        </div>
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Estudiante</th>
+                    <th>Email</th>
+                    <th>Promedio Actual</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for estudiante in estudiantes_tutoria %}
+                <tr>
+                    <td>{{ estudiante.codigo_estudiante }}</td>
+                    <td>{{ estudiante.nombres }} {{ estudiante.apellidos }}</td>
+                    <td>{{ estudiante.email }}</td>
+                    <td>{{ estudiante.promedio_general|floatformat:2 }}</td>
+                    <td><span class="badge badge-bajo">Necesita Tutoría</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="alert alert-warning">
+            ¡Excelente! No hay estudiantes que requieran tutorías en este momento.
+        </div>
+    {% endif %}
+</div>
+
+<div class="card">
+    <h3>Estudiantes que Deben Repetir Cursos</h3>
+    
+    {% if estudiantes_repetir %}
+        <div class="alert alert-danger">
+            <strong>Importante:</strong> Los siguientes estudiantes tienen cursos reprobados y deben volver a matricularse.
+        </div>
+        
+        {% for datos in estudiantes_repetir %}
+        <div class="card" style="margin-left: 20px; border-left: 4px solid #dc3545;">
+            <h4>{{ datos.estudiante.nombres }} {{ datos.estudiante.apellidos }} ({{ datos.estudiante.codigo_estudiante }})</h4>
+            <p><strong>Email:</strong> {{ datos.estudiante.email }}</p>
+            <p><strong>Cursos a repetir:</strong></p>
+            <ul>
+                {% for curso in datos.cursos %}
+                <li>{{ curso.codigo_curso }} - {{ curso.nombre }} ({{ curso.creditos }} créditos)</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-warning">
+            ¡Perfecto! No hay estudiantes que necesiten repetir cursos.
+        </div>
+    {% endif %}
+</div>
+
+<div class="card">
+    <h3>Sugerencias Generales</h3>
+    <div style="background-color: #f8f9fa; padding: 15px; border-radius: 4px;">
+        <h4>Para estudiantes con rendimiento bajo:</h4>
+        <ul>
+            <li>Programar sesiones de tutoría personalizadas</li>
+            <li>Identificar las materias donde tienen más dificultades</li>
+            <li>Crear grupos de estudio supervisados</li>
+            <li>Considerar apoyo psicopedagógico si es necesario</li>
+        </ul>
+        
+        <h4>Para cursos reprobados:</h4>
+        <ul>
+            <li>Analizar las causas de reprobación</li>
+            <li>Evaluar si el estudiante debe cambiar de metodología de estudio</li>
+            <li>Considerar prerrequisitos no cumplidos</li>
+            <li>Programar la rematrícula para el próximo período académico</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'GestorMatri/base.html' %}
+
+{% block title %}Estudiantes - Sistema de Gestión de Matrículas{% endblock %}
+
+{% block header %}Lista de Estudiantes{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h3>Estudiantes Registrados</h3>
+    
+    {% if estudiantes %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Email</th>
+                    <th>Fecha Ingreso</th>
+                    <th>Promedio</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for estudiante in estudiantes %}
+                <tr>
+                    <td>{{ estudiante.codigo_estudiante }}</td>
+                    <td>{{ estudiante.nombres }}</td>
+                    <td>{{ estudiante.apellidos }}</td>
+                    <td>{{ estudiante.email }}</td>
+                    <td>{{ estudiante.fecha_ingreso }}</td>
+                    <td>{{ estudiante.promedio_general|floatformat:2 }}</td>
+                    <td>
+                        {% if estudiante.rendimiento_estado == "Excelente" %}
+                            <span class="badge badge-excelente">{{ estudiante.rendimiento_estado }}</span>
+                        {% elif estudiante.rendimiento_estado == "Bueno" %}
+                            <span class="badge badge-bueno">{{ estudiante.rendimiento_estado }}</span>
+                        {% elif estudiante.rendimiento_estado == "Regular" %}
+                            <span class="badge badge-regular">{{ estudiante.rendimiento_estado }}</span>
+                        {% else %}
+                            <span class="badge badge-bajo">{{ estudiante.rendimiento_estado }}</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="alert alert-warning">
+            <strong>¡Atención!</strong> No hay estudiantes registrados en el sistema. 
+            <a href="/admin/">Ingresa al panel de administración</a> para agregar estudiantes.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
